@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "strict": true, 
+    "module": "ESNext",
+    "target": "ES6",
+    "jsx": "react-jsx"
   },
   "files": [],
   "references": [

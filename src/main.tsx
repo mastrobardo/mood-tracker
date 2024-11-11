@@ -7,6 +7,8 @@ import { RouterProvider } from "react-router-dom";
 import { queryClient } from "./router/query-client";
 import { createAppRouter } from "./router/routes";
 
+import "./index.css";
+
 const router = createAppRouter(queryClient);
 
 const rootElement = document.getElementById("root");
