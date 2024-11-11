@@ -9,7 +9,7 @@ import { fetchMoodData } from "../features/mood-tracker/api";
 
 const Dashboard = lazy(() =>
   import("../features/dashboard/dashboard-page").then((module) => ({
-    default: module.Dashboard,
+    default: module.DashboardPage,
   }))
 );
 

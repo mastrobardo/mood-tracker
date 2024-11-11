@@ -6,6 +6,7 @@ import * as React from "react";
 import { RouterProvider } from "react-router-dom";
 import { queryClient } from "./router/query-client";
 import { createAppRouter } from "./router/routes";
+import { MoodDataProvider } from "./features/mood-tracker/mood-data.context";
 
 import "./index.css";
 
@@ -17,9 +18,11 @@ if (!rootElement) throw new Error("Root element not found");
 createRoot(rootElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ConfigProvider>
-        <RouterProvider router={router} />
-      </ConfigProvider>
+      <MoodDataProvider>
+        <ConfigProvider>
+          <RouterProvider router={router} />
+        </ConfigProvider>
+      </MoodDataProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
