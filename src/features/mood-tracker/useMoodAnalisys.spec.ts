@@ -101,12 +101,12 @@ describe("Mood Trend Analysis", () => {
     });
 
     it("calculates correct volatility for simple pattern", () => {
-      expect(calculateVolatility([1, 2, 1, 2])).toBe(0);
+      expect(calculateVolatility([1, 2, 1, 2])).toBe(0.5);
     });
 
     it("calculates correct volatility for complex pattern", () => {
       const volatility = calculateVolatility([1, 2, 3, 1] as MoodValue[]);
-      expect(volatility).toBeCloseTo(0.47, 2);
+      expect(volatility).toBeCloseTo(0.75, 2);
     });
   });
 

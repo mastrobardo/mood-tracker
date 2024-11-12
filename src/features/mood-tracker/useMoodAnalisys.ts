@@ -42,7 +42,6 @@ export function calculateRegression(
     numerator += xDiff * yDiff;
     denominator += xDiff * xDiff;
 
-    // For R-squared calculation
     const predicted = meanY + (numerator / (denominator || 1)) * xDiff;
     totalSquaredResiduals += Math.pow(y[i] - predicted, 2);
     totalSquaredTotal += Math.pow(yDiff, 2);
@@ -58,27 +57,18 @@ export function calculateRegression(
 export function calculateVolatility(moodScores: MoodValue[]): number {
   if (moodScores.length < 2) return 0;
 
-  // Calculate day-to-day changes
-  const changes = [];
-  for (let i = 1; i < moodScores.length; i++) {
-    changes.push(Math.abs(moodScores[i] - moodScores[i - 1]));
-  }
+  const mean =
+    moodScores.reduce((sum, value) => sum + value, 0) / moodScores.length;
+  const absoluteDeviations = moodScores.map((value) => Math.abs(value - mean));
+  const mad =
+    absoluteDeviations.reduce((sum, value) => sum + value, 0) /
+    moodScores.length;
 
-  const meanChange =
-    changes.length === 0
-      ? 0
-      : changes.reduce((acc, val) => acc + val, 0) / changes.length;
-  const squaredDiffs = changes.map((change) =>
-    Math.pow(change - meanChange, 2)
-  );
-  const variance =
-    changes.length === 0
-      ? 0
-      : squaredDiffs.reduce((acc, val) => acc + val, 0) / changes.length;
+  const maxDeviation = 1;
+  const normalizedVolatility = mad / maxDeviation;
 
-  return Math.sqrt(variance);
+  return normalizedVolatility;
 }
-
 export function findLongestStreak(moodScores: MoodValue[]): {
   mood: MoodValue;
   length: number;
@@ -118,40 +108,35 @@ export function analyzeTrend({
   volatility,
   percentages,
 }: TrendFactors): TrendDescription {
-  const SIGNIFICANT_SLOPE = 0.05;
-  const HIGH_VOLATILITY = 0.8;
-  const HIGH_R_SQUARED = 0.7;
-  const DOMINANT_PERCENTAGE = 50;
-
-  // get help
-  if (volatility > HIGH_VOLATILITY) {
+  if (volatility > 0.8) {
     return "highly variable";
   }
 
-  // Curve fits
-  if (rSquared > HIGH_R_SQUARED) {
-    if (slope > SIGNIFICANT_SLOPE) {
-      return "improving significantly";
-    }
-    if (slope < -SIGNIFICANT_SLOPE) {
-      return "declining significantly";
-    }
+  if (rSquared > 0.4) {
+    if (slope > 0.04) return "improving significantly";
+    if (slope < -0.04) return "declining significantly";
+    if (slope > 0.02) return "improving slightly";
+    if (slope < -0.02) return "declining slightly";
   }
 
-  // Weak but we got it
-  if (slope > SIGNIFICANT_SLOPE / 2) {
-    return "improving slightly";
+  //use percentages when other values are offcharts
+  if (percentages.high > 60) {
+    return "consistently positive";
   }
-  if (slope < -SIGNIFICANT_SLOPE / 2) {
-    return "declining slightly";
-  }
-
-  if (percentages.high > DOMINANT_PERCENTAGE) {
+  if (percentages.high > 45) {
     return "mostly positive";
   }
-  if (percentages.low > DOMINANT_PERCENTAGE) {
+  if (percentages.high > 35) return "leaning positive";
+  if (percentages.medium > 60) return "generally neutral";
+  if (percentages.low > 35) return "leaning negative";
+  if (percentages.low > 60) {
+    return "consistently negative";
+  }
+  if (percentages.low > 45) {
     return "mostly negative";
   }
+  if (Math.abs(percentages.high - percentages.low) < 15)
+    return "relatively stable";
 
   return "relatively stable";
 }

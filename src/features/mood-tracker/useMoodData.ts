@@ -14,6 +14,7 @@ import { message } from "antd";
 import { MoodEntry, MoodValue } from "../../domain/mood";
 import { useMoodDataContext } from "./mood-data.context";
 import { useEffect } from "react";
+import { formatDate } from "./utils";
 
 export const MOOD_QUERY_KEY = ["moods"] as const;
 
@@ -55,12 +56,31 @@ export function useMoodData(options?: MoodQueryOptions) {
 
       const previousData =
         queryClient.getQueryData<DashboardData>(MOOD_QUERY_KEY);
-      console.log("Previous data:", previousData);
 
       if (previousData) {
+        const today = new Date();
+        const todayStr = formatDate(today);
+        const todayMoodIndex = previousData.moods.findIndex((mood) =>
+          mood.day.includes(todayStr)
+        );
+
+        let newMoods;
+        if (todayMoodIndex !== -1) {
+          newMoods = [...previousData.moods];
+          newMoods[todayMoodIndex] = {
+            ...newMoods[todayMoodIndex],
+            mood: newMood.mood,
+          };
+        } else {
+          newMoods = [
+            ...previousData.moods,
+            { id: previousData.moods.length + 1, ...newMood },
+          ];
+        }
+
         const newData = {
           ...previousData,
-          moods: [...previousData.moods, { id: Date.now(), ...newMood }],
+          moods: newMoods,
         };
 
         queryClient.setQueryData(MOOD_QUERY_KEY, newData);
@@ -71,9 +91,6 @@ export function useMoodData(options?: MoodQueryOptions) {
     },
     onError: (error, variables, context) => {
       console.error("Mutation error:", error);
-      console.log("Failed variables:", variables);
-      console.log("Context:", context);
-
       if (context?.previousData) {
         queryClient.setQueryData(MOOD_QUERY_KEY, context.previousData);
         setMoodData(context.previousData);
