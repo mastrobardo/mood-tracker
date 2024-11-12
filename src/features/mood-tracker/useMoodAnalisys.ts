@@ -112,6 +112,7 @@ export function analyzeTrend({
     return "highly variable";
   }
 
+  //high confidence curve
   if (rSquared > 0.4) {
     if (slope > 0.04) return "improving significantly";
     if (slope < -0.04) return "declining significantly";

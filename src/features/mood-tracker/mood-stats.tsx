@@ -1,11 +1,16 @@
 import { Card, Typography } from "antd";
-import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
+import {
+  SmileOutlined,
+  MehOutlined,
+  FrownOutlined,
+  QuestionOutlined,
+} from "@ant-design/icons";
 import { MoodEntry, MoodValue } from "../../domain/mood";
 import { TrendAnalysis } from "../../domain/trend";
 
 const { Text, Title } = Typography;
 
-const getMoodIcon = (mood: MoodValue) => {
+const getMoodIcon = (mood?: MoodValue) => {
   switch (mood) {
     case 3:
       return <SmileOutlined className="text-green-500 text-6xl" />;
@@ -13,6 +18,8 @@ const getMoodIcon = (mood: MoodValue) => {
       return <MehOutlined className="text-yellow-500 text-6xl" />;
     case 1:
       return <FrownOutlined className="text-red-500 text-6xl" />;
+    default:
+      return <QuestionOutlined className="text-gray-400 text-6xl" />;
   }
 };
 
@@ -25,7 +32,7 @@ export function MoodStats({ analysis, currentMood }: MoodStatsProps) {
   return (
     <Card className="shadow-sm bg-white" bordered={false}>
       <div className="mb-8 flex justify-center">
-        {getMoodIcon(currentMood?.mood || analysis.stats.longestStreak.mood)}
+        {getMoodIcon(currentMood?.mood)}
       </div>
 
       <div className="space-y-6">

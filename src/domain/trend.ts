@@ -26,8 +26,15 @@ export type TrendDescription =
   | "declining slightly"
   | "declining significantly"
   | "mostly positive"
+  | "consistently positive"
+  | "leaning positive"
   | "mostly negative"
+  | "consistently negative"
+  | "leaning negative"
   | "highly variable"
+  | "moderately variable"
+  | "mixed extremes"
+  | "generally neutral"
   | "no data";
 
 export type TrendFactors = {

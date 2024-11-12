@@ -9,6 +9,7 @@ import { createAppRouter } from "./router/routes";
 import { MoodDataProvider } from "./features/mood-tracker/mood-data.context";
 
 import "./index.css";
+import { TaskProvider } from "./features/tasks/tasks.context";
 
 const router = createAppRouter(queryClient);
 
@@ -19,9 +20,11 @@ createRoot(rootElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <MoodDataProvider>
-        <ConfigProvider>
-          <RouterProvider router={router} />
-        </ConfigProvider>
+        <TaskProvider>
+          <ConfigProvider>
+            <RouterProvider router={router} />
+          </ConfigProvider>
+        </TaskProvider>
       </MoodDataProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
