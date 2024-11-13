@@ -65,6 +65,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
           icon={<PlusOutlined />}
           onClick={onAddTask}
           size="middle"
+          data-testid="add-task-button"
         >
           <span className="hidden sm:inline">Add Task</span>
         </Button>
@@ -75,6 +76,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
           "h-full overflow-auto scrollbar-hide": isDesktop,
           "ant-scrollbar-hide": isDesktop,
         })}
+        data-testid="task-list"
       >
         <List
           loading={isLoading}
@@ -87,7 +89,10 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
             align: "center",
           }}
           renderItem={(task: Task) => (
-            <List.Item className="px-4 py-3 border-b last:border-b-0">
+            <List.Item
+              key={task.id}
+              className="px-4 py-3 border-b last:border-b-0"
+            >
               <div className="flex flex-col w-full">
                 <div className="flex items-start justify-between gap-4">
                   <h3
@@ -95,6 +100,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
                       "line-through text-gray-500": task.completed,
                       "text-gray-900": !task.completed,
                     })}
+                    data-testid={`task-title-${task.id}`}
                   >
                     {task.title}
                   </h3>
@@ -106,6 +112,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
                         ? "Collapse description"
                         : "Expand description"
                     }
+                    data-testid={`expand-button-${task.id}`}
                   >
                     {expandedIds.has(task.id) ? (
                       <UpOutlined className="text-xs" />
@@ -122,6 +129,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
                       "line-clamp-1": !expandedIds.has(task.id),
                     }
                   )}
+                  data-testid={`task-description-${task.id}`}
                 >
                   {task.description}
                 </p>
@@ -138,6 +146,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
                     aria-label={
                       task.completed ? "Mark as incomplete" : "Mark as complete"
                     }
+                    data-testid={`complete-button-${task.id}`}
                   >
                     <CheckOutlined className="text-sm" />
                   </button>
@@ -145,6 +154,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
                     onClick={() => setTaskToDelete(task.id)}
                     className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-600 transition-colors duration-200"
                     aria-label="Delete task"
+                    data-testid={`delete-button-${task.id}`}
                   >
                     <DeleteOutlined className="text-sm" />
                   </button>
@@ -161,6 +171,7 @@ export const TaskList = ({ onAddTask }: TaskListProps) => {
           onCancel={() => setTaskToDelete(null)}
           okText="Delete"
           cancelText="Cancel"
+          data-testid="delete-modal"
         >
           <p>
             Are you sure you want to delete this task? This action cannot be

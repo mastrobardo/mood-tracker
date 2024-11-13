@@ -144,9 +144,9 @@ export function analyzeTrend({
 
 export function getMoodDescription(mood: MoodValue): string {
   const descriptions: Record<MoodValue, string> = {
-    1: "Bad mood",
-    2: "Neutral mood",
-    3: "Good mood",
+    1: "mostly_negative",
+    2: "generally_neutral",
+    3: "mostly_positive",
   };
   return descriptions[mood] || descriptions[2];
 }
@@ -154,19 +154,25 @@ export function getMoodDescription(mood: MoodValue): string {
 export function getStreakDescription(streak: {
   mood: MoodValue;
   length: number;
-}): string {
-  if (streak.length === 0) return "No streak found";
+}): { key: string; values?: { count: number; mood: string } } {
+  if (streak.length === 0) {
+    return { key: "no_data" };
+  }
 
-  return `Longest streak: ${streak.length} days of ${getMoodDescription(
-    streak.mood
-  ).toLowerCase()}`;
+  return {
+    key: "dashboard.stats.longestStreak",
+    values: {
+      count: streak.length,
+      mood: getMoodDescription(streak.mood),
+    },
+  };
 }
 
 export function getVolatilityDescription(volatility: number): string {
-  if (volatility < 0.3) return "Very stable mood pattern";
-  if (volatility < 0.6) return "Moderately variable mood pattern";
-  if (volatility < 0.9) return "Highly variable mood pattern";
-  return "Extremely variable mood pattern";
+  if (volatility < 0.3) return "relatively_stable";
+  if (volatility < 0.6) return "moderately_variable";
+  if (volatility < 0.9) return "highly_variable";
+  return "highly_variable";
 }
 
 export function useMoodTrendAnalysis(moods: MoodEntry[]): TrendAnalysis {

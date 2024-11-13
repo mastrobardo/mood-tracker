@@ -27,7 +27,7 @@ describe("Mood Trend Analysis", () => {
       const { result } = renderHook(() => useMoodTrendAnalysis([]));
 
       expect(result.current).toEqual({
-        trend: "no data",
+        trend: "no_data",
         stats: {
           slope: 0,
           averageMood: 2,
@@ -134,32 +134,30 @@ describe("Mood Trend Analysis", () => {
 
   describe("Description Functions", () => {
     it("getMoodDescription handles all values", () => {
-      expect(getMoodDescription(1)).toBe("Bad mood");
-      expect(getMoodDescription(2)).toBe("Neutral mood");
-      expect(getMoodDescription(3)).toBe("Good mood");
-      expect(getMoodDescription(4 as MoodValue)).toBe("Neutral mood");
+      expect(getMoodDescription(1)).toBe("mostly_negative");
+      expect(getMoodDescription(2)).toBe("generally_neutral");
+      expect(getMoodDescription(3)).toBe("mostly_positive");
+      expect(getMoodDescription(4 as MoodValue)).toBe("generally_neutral");
     });
 
     it("getStreakDescription formats all cases", () => {
-      expect(getStreakDescription({ mood: 3, length: 4 })).toBe(
-        "Longest streak: 4 days of good mood"
-      );
-      expect(getStreakDescription({ mood: 2, length: 0 })).toBe(
-        "No streak found"
-      );
+      expect(getStreakDescription({ mood: 3, length: 4 })).toEqual({
+        key: "dashboard.stats.longestStreak",
+        values: {
+          count: 4,
+          mood: "mostly_positive",
+        },
+      });
+      expect(getStreakDescription({ mood: 2, length: 0 })).toEqual({
+        key: "no_data",
+      });
     });
 
     it("getVolatilityDescription covers all ranges", () => {
-      expect(getVolatilityDescription(0.2)).toBe("Very stable mood pattern");
-      expect(getVolatilityDescription(0.4)).toBe(
-        "Moderately variable mood pattern"
-      );
-      expect(getVolatilityDescription(0.7)).toBe(
-        "Highly variable mood pattern"
-      );
-      expect(getVolatilityDescription(1.0)).toBe(
-        "Extremely variable mood pattern"
-      );
+      expect(getVolatilityDescription(0.2)).toBe("relatively_stable");
+      expect(getVolatilityDescription(0.4)).toBe("moderately_variable");
+      expect(getVolatilityDescription(0.7)).toBe("highly_variable");
+      expect(getVolatilityDescription(1.0)).toBe("highly_variable");
     });
   });
 
@@ -171,7 +169,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.9,
         percentages: { high: 30, medium: 30, low: 40 },
       });
-      expect(result).toBe("highly variable");
+      expect(result).toBe("highly_variable");
     });
 
     it("identifies significant improvement", () => {
@@ -181,7 +179,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 40, medium: 30, low: 30 },
       });
-      expect(result).toBe("improving significantly");
+      expect(result).toBe("improving_significantly");
     });
 
     it("identifies significant decline", () => {
@@ -191,7 +189,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 30, medium: 30, low: 40 },
       });
-      expect(result).toBe("declining significantly");
+      expect(result).toBe("declining_significantly");
     });
 
     it("identifies slight improvement", () => {
@@ -201,7 +199,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 35, medium: 35, low: 30 },
       });
-      expect(result).toBe("improving slightly");
+      expect(result).toBe("improving_slightly");
     });
 
     it("identifies slight decline", () => {
@@ -211,7 +209,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 30, medium: 35, low: 35 },
       });
-      expect(result).toBe("declining slightly");
+      expect(result).toBe("declining_slightly");
     });
 
     it("identifies mostly positive", () => {
@@ -221,7 +219,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 60, medium: 20, low: 20 },
       });
-      expect(result).toBe("mostly positive");
+      expect(result).toBe("mostly_positive");
     });
 
     it("identifies mostly negative", () => {
@@ -231,7 +229,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 20, medium: 20, low: 60 },
       });
-      expect(result).toBe("mostly negative");
+      expect(result).toBe("leaning_negative");
     });
 
     it("identifies relatively stable", () => {
@@ -241,7 +239,7 @@ describe("Mood Trend Analysis", () => {
         volatility: 0.3,
         percentages: { high: 30, medium: 40, low: 30 },
       });
-      expect(result).toBe("relatively stable");
+      expect(result).toBe("relatively_stable");
     });
   });
 
@@ -251,7 +249,7 @@ describe("Mood Trend Analysis", () => {
 
       const { result } = renderHook(() => useMoodTrendAnalysis(moods));
 
-      expect(result.current.trend).toBe("improving significantly");
+      expect(result.current.trend).toBe("improving_significantly");
       expect(result.current.stats.slope).toBeGreaterThan(0.05);
       expect(result.current.prediction).toBeLessThanOrEqual(3);
       expect(result.current.prediction).toBeGreaterThanOrEqual(1);
@@ -262,7 +260,7 @@ describe("Mood Trend Analysis", () => {
 
       const { result } = renderHook(() => useMoodTrendAnalysis(moods));
 
-      expect(result.current.trend).toBe("declining significantly");
+      expect(result.current.trend).toBe("declining_significantly");
       expect(result.current.stats.slope).toBeLessThan(-0.05);
       expect(result.current.prediction).toBeLessThanOrEqual(3);
       expect(result.current.prediction).toBeGreaterThanOrEqual(1);

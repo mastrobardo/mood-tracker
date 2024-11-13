@@ -1,4 +1,3 @@
-// hooks/useTasks.ts
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Task } from "../../domain/task";
