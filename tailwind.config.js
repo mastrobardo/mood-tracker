@@ -6,6 +6,12 @@ export default {
       animation: {
         "spin-slow": "spin 20s linear infinite",
       },
+      colors: {
+        primary: {
+          DEFAULT: "#0a192f",
+          hover: "#132f4c",
+        },
+      },
     },
   },
   plugins: [],
