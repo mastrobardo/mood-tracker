@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Typography, Button, Row, Col, Grid } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Row, Col, Grid } from "antd";
 import { MoodEntryForm } from "../mood-tracker/mood-entry-form";
 import { MoodStats } from "../mood-tracker/mood-stats";
 import { useMoodTrendAnalysis } from "../mood-tracker/useMoodAnalisys";
@@ -12,7 +11,6 @@ import { TaskList } from "../tasks/tasks-list";
 import { formatDate } from "../mood-tracker/utils";
 import MoodTimeline from "../graph/mood-charts";
 
-const { Title } = Typography;
 const { useBreakpoint } = Grid;
 
 const LAYOUT = {
@@ -65,7 +63,6 @@ export function DashboardPage() {
     setIsTaskFormOpen(false);
   };
 
-  
   return (
     <div className="space-y-6">
       {isDesktop ? (

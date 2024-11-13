@@ -1,9 +1,7 @@
-import { Modal, Radio, Typography, Space, message } from "antd";
+import { Modal, Radio, Typography, Space } from "antd";
 import { MehOutlined, FrownOutlined, SmileOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MoodValue } from "../../domain/mood";
-import { updateMood } from "./api";
-import { MOOD_QUERY_KEY, useMoodData } from "./useMoodData";
+import { useMoodData } from "./useMoodData";
 
 const { Text } = Typography;
 

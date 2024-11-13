@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Grid } from "antd";
+import { Row, Col } from "antd";
 import { MoodEntry } from "../../domain/mood";
 import MoodTimeline from "../graph/mood-charts";
 import { useMoodDataContext } from "../mood-tracker/mood-data.context";

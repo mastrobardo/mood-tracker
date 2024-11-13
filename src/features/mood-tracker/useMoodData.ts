@@ -2,7 +2,6 @@ import {
   useSuspenseQuery,
   useMutation,
   useQueryClient,
-  useQuery,
 } from "@tanstack/react-query";
 import type {
   UseSuspenseQueryOptions,
@@ -11,7 +10,7 @@ import type {
 import { DashboardData } from "../../domain/dashboard";
 import { fetchMoodData, updateMood } from "./api";
 import { message } from "antd";
-import { MoodEntry, MoodValue } from "../../domain/mood";
+import { MoodEntry } from "../../domain/mood";
 import { useMoodDataContext } from "./mood-data.context";
 import { useEffect } from "react";
 import { formatDate } from "./utils";
@@ -90,7 +89,7 @@ export function useMoodData(options?: MoodQueryOptions) {
       return { previousData };
     },
     onError: (error, variables, context) => {
-      console.error("Mutation error:", error);
+      console.error("Mutation error:", error, variables);
       if (context?.previousData) {
         queryClient.setQueryData(MOOD_QUERY_KEY, context.previousData);
         setMoodData(context.previousData);

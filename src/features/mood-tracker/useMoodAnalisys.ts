@@ -1,10 +1,6 @@
 import { useMemo } from "react";
 import { TrendAnalysis, TrendDescription } from "../../domain/trend";
-import {
-  MoodEntry,
-  MoodTrendAnalysisOptions,
-  MoodValue,
-} from "../../domain/mood";
+import { MoodEntry, MoodValue } from "../../domain/mood";
 
 type RegressionResult = {
   slope: number;

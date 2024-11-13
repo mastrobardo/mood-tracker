@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, ReactNode } from "react";
-import { Task, TaskState, TaskAction } from "../../domain/task";
+import { TaskState, TaskAction } from "../../domain/task";
 
 type TaskContextType = {
   state: TaskState;
