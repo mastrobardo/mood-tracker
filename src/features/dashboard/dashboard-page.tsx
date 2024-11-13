@@ -10,6 +10,7 @@ import { useMoodDataContext } from "../mood-tracker/mood-data.context";
 import { TaskFormModal } from "../tasks/task-form";
 import { TaskList } from "../tasks/tasks-list";
 import { formatDate } from "../mood-tracker/utils";
+import MoodTimeline from "../graph/mood-charts";
 
 const { Title } = Typography;
 
@@ -81,6 +82,12 @@ export function DashboardPage() {
       <div className="bg-white rounded-lg shadow-sm">
         <TaskList />
       </div>
+
+      {moodData?.moods && (
+        <div className="bg-white rounded-lg shadow-sm">
+          <MoodTimeline data={moodData?.moods} type={"timeline"} />
+        </div>
+      )}
 
       <MoodEntryForm
         open={isFormOpen}
