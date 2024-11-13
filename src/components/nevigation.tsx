@@ -2,12 +2,16 @@ import {
   MenuOutlined,
   HomeOutlined,
   BarChartOutlined,
+  CheckSquareOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { ROUTES } from "../router/routes";
+import { useTranslation } from "react-i18next";
 
 export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="w-full">
@@ -19,28 +23,39 @@ export const Navigation = () => {
           <MenuOutlined />
         </button>
 
-        <Link to="/" className="text-lg font-semibold text-blue-400">
-          Mood Tracker
+        <Link
+          to={ROUTES.DASHBOARD}
+          className="text-lg font-semibold text-blue-400"
+        >
+          {t("app.title")}
         </Link>
       </header>
 
       {mobileMenuOpen && (
         <nav className="fixed left-0 right-0 top-14 bg-white border-b w-full">
           <Link
-            to="/"
+            to={ROUTES.DASHBOARD}
             className="flex items-center gap-2 px-4 py-3 text-black hover:bg-blue-50"
             onClick={() => setMobileMenuOpen(false)}
           >
             <HomeOutlined />
-            <span>Dashboard</span>
+            <span>{t("nav.dashboard")}</span>
           </Link>
           <Link
-            to="/analytics"
+            to={ROUTES.MOODS}
             className="flex items-center gap-2 px-4 py-3 text-black hover:bg-blue-50"
             onClick={() => setMobileMenuOpen(false)}
           >
             <BarChartOutlined />
-            <span>Analytics</span>
+            <span>{t("nav.moods")}</span>
+          </Link>
+          <Link
+            to={ROUTES.TASKS}
+            className="flex items-center gap-2 px-4 py-3 text-black hover:bg-blue-50"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <CheckSquareOutlined />
+            <span>{t("nav.tasks")}</span>
           </Link>
         </nav>
       )}

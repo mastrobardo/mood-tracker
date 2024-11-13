@@ -3,6 +3,7 @@ import { useMoodCharts } from "./useMoodCharts";
 import { Grid, Row, Col, Segmented } from "antd";
 import { MoodEntry } from "../../domain/mood";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type MoodChartsProps = {
   data: MoodEntry[];
@@ -28,6 +29,7 @@ const MoodCharts = ({ data, type = "timeline" }: MoodChartsProps) => {
   const { getTimelineConfig, getPieConfig } = useMoodCharts();
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
+  const { t } = useTranslation();
 
   const chartHeight = screens.xl
     ? CHART_HEIGHTS.DESKTOP
@@ -80,8 +82,8 @@ const MoodCharts = ({ data, type = "timeline" }: MoodChartsProps) => {
       <div className="mb-4">
         <Segmented
           options={[
-            { label: "Timeline", value: "timeline" },
-            { label: "Distribution", value: "pie" },
+            { label: t("charts.timeline"), value: "timeline" },
+            { label: t("charts.distribution"), value: "pie" },
           ]}
           value={chartType}
           onChange={(value) => setChartType(value as "timeline" | "pie")}

@@ -7,9 +7,10 @@ import { RouterProvider } from "react-router-dom";
 import { queryClient } from "./router/query-client";
 import { createAppRouter } from "./router/routes";
 import { MoodDataProvider } from "./features/mood-tracker/mood-data.context";
-
-import "./index.css";
+import "./i18n/config";
 import { TaskProvider } from "./features/tasks/tasks.context";
+import { ModalsProvider } from "./features/modal-manager/modal.context";
+import "./index.css";
 
 const router = createAppRouter(queryClient);
 
@@ -21,9 +22,11 @@ createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
       <MoodDataProvider>
         <TaskProvider>
-          <ConfigProvider>
-            <RouterProvider router={router} />
-          </ConfigProvider>
+          <ModalsProvider>
+            <ConfigProvider>
+              <RouterProvider router={router} />
+            </ConfigProvider>
+          </ModalsProvider>
         </TaskProvider>
       </MoodDataProvider>
       <ReactQueryDevtools />

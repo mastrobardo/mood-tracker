@@ -1,6 +1,6 @@
-// components/TaskFormModal.tsx
 import { Modal, Form, Input } from "antd";
 import { useTasks } from "./useTasks";
+import { useTranslation } from "react-i18next";
 
 interface TaskFormValues {
   title: string;
@@ -15,6 +15,7 @@ interface TaskFormModalProps {
 export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
   const { addTask } = useTasks();
   const [form] = Form.useForm<TaskFormValues>();
+  const { t } = useTranslation();
 
   const onFinish = (values: TaskFormValues) => {
     addTask({
@@ -29,7 +30,7 @@ export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
   return (
     <Modal
       open={open}
-      title="Add New Task"
+      title={t("taskForm.title")}
       onCancel={onClose}
       footer={null}
       centered
@@ -41,14 +42,14 @@ export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
           rules={[
             {
               required: true,
-              message: "Please enter a task title",
+              message: t("taskForm.validation.titleRequired"),
               whitespace: true,
             },
           ]}
           className="mb-3"
         >
           <Input
-            placeholder="What needs to be done?"
+            placeholder={t("taskForm.placeholders.title")}
             className="w-full px-3 py-2 text-base rounded-md"
             autoFocus
           />
@@ -59,14 +60,14 @@ export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
           rules={[
             {
               required: true,
-              message: "Please enter a task description",
+              message: t("taskForm.validation.descriptionRequired"),
               whitespace: true,
             },
           ]}
           className="mb-6"
         >
           <Input.TextArea
-            placeholder="Add some details..."
+            placeholder={t("taskForm.placeholders.description")}
             className="w-full px-3 py-2 text-base rounded-md"
             autoSize={{ minRows: 3, maxRows: 6 }}
           />
@@ -80,7 +81,7 @@ export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
                      rounded-md hover:bg-gray-50 active:bg-gray-100 
                      transition-colors duration-200"
           >
-            Cancel
+            {t("common.cancel")}
           </button>
           <button
             type="submit"
@@ -88,7 +89,7 @@ export const TaskFormModal = ({ open, onClose }: TaskFormModalProps) => {
                      rounded-md hover:bg-blue-600 active:bg-blue-700 
                      transition-colors duration-200"
           >
-            Add Task
+            {t("taskForm.submit")}
           </button>
         </div>
       </Form>

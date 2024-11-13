@@ -1,0 +1,62 @@
+{
+  "error": {
+    "generalError": "Something went wrong"
+  },
+  "common": {
+    "backHome": "Back Home",
+    "tryAgain": "Try Again",
+    "cancel": "Cancel"
+  },
+  "app": {
+    "title": "Mood Tracker"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "moods": "Moods",
+    "tasks": "Tasks"
+  },
+  "charts": {
+    "timeline": "Timeline",
+    "distribution": "Distribution"
+  },
+  "dashboard": {
+    "title": "Mood Dashboard",
+    "addMood": "Add Mood",
+    "stats": {
+      "averageMood": "Average Mood",
+      "trend": "Trend",
+      "longestStreak": "Longest Streak",
+      "daysCount": "{{count}} days"
+    }
+  },
+  "trends": {
+    "improving_significantly": "Improving significantly",
+    "improving_slightly": "Improving slightly",
+    "relatively_stable": "Relatively stable",
+    "declining_slightly": "Declining slightly",
+    "declining_significantly": "Declining significantly",
+    "mostly_positive": "Mostly positive",
+    "consistently_positive": "Consistently positive",
+    "leaning_positive": "Leaning positive",
+    "mostly_negative": "Mostly negative",
+    "consistently_negative": "Consistently negative",
+    "leaning_negative": "Leaning negative",
+    "highly_variable": "Highly variable",
+    "moderately_variable": "Moderately variable",
+    "mixed_extremes": "Mixed extremes",
+    "generally_neutral": "Generally neutral",
+    "no_data": "No data"
+  },
+  "taskForm": {
+    "title": "Add New Task",
+    "submit": "Add Task",
+    "placeholders": {
+      "title": "What needs to be done?",
+      "description": "Add some details..."
+    },
+    "validation": {
+      "titleRequired": "Please enter a task title",
+      "descriptionRequired": "Please enter a task description"
+    }
+  }
+}

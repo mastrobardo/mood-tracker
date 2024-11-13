@@ -109,37 +109,37 @@ export function analyzeTrend({
   percentages,
 }: TrendFactors): TrendDescription {
   if (volatility > 0.8) {
-    return "highly variable";
+    return "highly_variable";
   }
 
   //high confidence curve
   if (rSquared > 0.4) {
-    if (slope > 0.04) return "improving significantly";
-    if (slope < -0.04) return "declining significantly";
-    if (slope > 0.02) return "improving slightly";
-    if (slope < -0.02) return "declining slightly";
+    if (slope > 0.04) return "improving_significantly";
+    if (slope < -0.04) return "declining_significantly";
+    if (slope > 0.02) return "improving_slightly";
+    if (slope < -0.02) return "declining_slightly";
   }
 
   //use percentages when other values are offcharts
   if (percentages.high > 60) {
-    return "consistently positive";
+    return "consistently_positive";
   }
   if (percentages.high > 45) {
-    return "mostly positive";
+    return "mostly_positive";
   }
-  if (percentages.high > 35) return "leaning positive";
-  if (percentages.medium > 60) return "generally neutral";
-  if (percentages.low > 35) return "leaning negative";
+  if (percentages.high > 35) return "leaning_positive";
+  if (percentages.medium > 60) return "generally_neutral";
+  if (percentages.low > 35) return "leaning_negative";
   if (percentages.low > 60) {
-    return "consistently negative";
+    return "consistently_negative";
   }
   if (percentages.low > 45) {
-    return "mostly negative";
+    return "mostly_negative";
   }
   if (Math.abs(percentages.high - percentages.low) < 15)
-    return "relatively stable";
+    return "relatively_stable";
 
-  return "relatively stable";
+  return "relatively_stable";
 }
 
 export function getMoodDescription(mood: MoodValue): string {
@@ -178,7 +178,7 @@ export function useMoodTrendAnalysis(moods: MoodEntry[]): TrendAnalysis {
 
     if (n === 0) {
       return {
-        trend: "no data",
+        trend: "no_data",
         stats: {
           slope: 0,
           averageMood: 2,

@@ -8,16 +8,22 @@ import { ErrorBoundary } from "../features/errors/error-boundary";
 import { fetchMoodData } from "../features/mood-tracker/api";
 
 const Dashboard = lazy(() =>
-  import("../features/dashboard/dashboard-page").then((module) => ({
+  import("../features/pages/dashboard-page").then((module) => ({
     default: module.DashboardPage,
   }))
 );
 
-// const Analytics = lazy(() =>
-//   import("../pages/Analytics").then((module) => ({
-//     default: module.Analytics,
-//   }))
-// );
+const MoodPage = lazy(() =>
+  import("../features/pages/mood-page").then((module) => ({
+    default: module.MoodPage,
+  }))
+);
+
+const TasksPage = lazy(() =>
+  import("../features/pages/tasks-page").then((module) => ({
+    default: module.TasksPage,
+  }))
+);
 
 type RouteWrapperProps = {
   component: React.ReactNode;
@@ -32,26 +38,27 @@ function RouteWrapper({ component }: RouteWrapperProps) {
 }
 
 export const ROUTES = {
-  HOME: "/",
   DASHBOARD: "/",
-  ANALYTICS: "/analytics",
+  MOODS: "/moods",
+  TASKS: "/tasks",
 } as const;
 
 export const createAppRouter = (queryClient: QueryClient) => {
   return createBrowserRouter([
     {
-      path: ROUTES.HOME,
+      path: ROUTES.DASHBOARD,
       element: <Layout />,
       children: [
         {
           index: true,
           element: <RouteWrapper component={<Dashboard />} />,
+          // this is useless, actually. Just to show i know how modern routes work
           loader: async () => {
             try {
               await queryClient.prefetchQuery({
                 queryKey: ["moods"],
                 queryFn: fetchMoodData,
-                retry: false, // Don't retry on failure
+                retry: false,
               });
               return null;
             } catch (error) {
@@ -59,11 +66,19 @@ export const createAppRouter = (queryClient: QueryClient) => {
             }
           },
         },
+        {
+          path: ROUTES.MOODS,
+          element: <RouteWrapper component={<MoodPage />} />,
+        },
+        {
+          path: ROUTES.TASKS,
+          element: <RouteWrapper component={<TasksPage />} />,
+        },
       ],
     },
     {
       path: "*",
-      element: <Navigate to={ROUTES.HOME} replace />,
+      element: <Navigate to={ROUTES.DASHBOARD} replace />,
     },
   ]);
 };
